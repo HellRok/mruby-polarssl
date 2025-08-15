@@ -10,23 +10,25 @@ class Base64Test < MTest::Unit::TestCase
       }
   ]
 
-  assert('PolarSSL::Base64') do
-    PolarSSL::Base64.class == Module
-  end
-
-  assert('PolarSSL::Base64.encode') do
-    TEST_DATA.each do |data|
-      expected = data[:dst]
-      actual = PolarSSL::Base64.encode(data[:src])
-      assert_equal(expected, actual)
+  def test_base64
+    assert('PolarSSL::Base64') do
+      PolarSSL::Base64.class == Module
     end
-  end
 
-  assert('PolarSSL::Base64.decode') do
-    TEST_DATA.each do |data|
-      expected = data[:src]
-      actual = PolarSSL::Base64.decode(data[:dst])
-      assert_equal(expected, actual)
+    assert('PolarSSL::Base64.encode') do
+      TEST_DATA.each do |data|
+        expected = data[:dst]
+        actual = PolarSSL::Base64.encode(data[:src])
+        assert_equal(expected, actual)
+      end
+    end
+
+    assert('PolarSSL::Base64.decode') do
+      TEST_DATA.each do |data|
+        expected = data[:src]
+        actual = PolarSSL::Base64.decode(data[:dst])
+        assert_equal(expected, actual)
+      end
     end
   end
 end

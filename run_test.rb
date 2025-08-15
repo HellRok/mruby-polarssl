@@ -4,24 +4,27 @@
 #
 
 if __FILE__ == $0
+  this_file = File.expand_path __FILE__
   repository, dir = 'https://github.com/mruby/mruby.git', 'tmp/mruby'
   build_args = ARGV
 
   Dir.mkdir 'tmp'  unless File.exist?('tmp')
   unless File.exist?(dir)
-    system "git clone #{repository} --branch 1.3.0 #{dir}"
+    system "git clone #{repository} #{dir}"
   end
+  Dir.chdir dir
+  system "git checkout 3.4.0"
 
-  exit system(%Q[cd #{dir}; MRUBY_CONFIG=#{File.expand_path __FILE__} ruby minirake #{build_args.join(' ')}])
+  exit system(%Q[MRUBY_CONFIG=#{this_file} ruby minirake #{build_args.join(' ')}])
 end
 
 MRuby::Build.new do |conf|
   toolchain :gcc
   conf.gembox 'default'
 
-  conf.gem :git => 'git@github.com:iij/mruby-io.git'
-  conf.gem :git => 'git@github.com:iij/mruby-pack.git'
-  conf.gem :git => 'git@github.com:iij/mruby-socket.git'
+  conf.gem core: "mruby-socket"
+  conf.gem core: "mruby-io"
+  conf.gem core: "mruby-pack"
   conf.gem :git => 'git@github.com:iij/mruby-mtest.git'
 
   conf.gem File.expand_path(File.dirname(__FILE__))
