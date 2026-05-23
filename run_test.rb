@@ -13,7 +13,7 @@ if __FILE__ == $0
     system "git clone #{repository} #{dir}"
   end
   Dir.chdir dir
-  system "git checkout 3.4.0"
+  system "git checkout 4.0.0"
 
   exit system(%Q[MRUBY_CONFIG=#{this_file} ruby minirake #{build_args.join(' ')}])
 end
